@@ -128,8 +128,8 @@ export class Page extends ChannelOwner<channels.PageChannel, channels.PageInitia
       this.emit(Events.Page.Download, new Download(url, suggestedFilename, artifactObject));
     });
     this._channel.on('fileChooser', ({ element, isMultiple }) => this.emit(Events.Page.FileChooser, new FileChooser(this, ElementHandle.from(element), isMultiple)));
-    this._channel.on('frameAttached', ({ frame }) => this._onFrameAttached(Frame.from(frame)));
-    this._channel.on('frameDetached', ({ frame }) => this._onFrameDetached(Frame.from(frame)));
+    this._channel.on('frameAttached', ({ frame }) => frame ?  this._onFrameAttached(Frame.from(frame)): null );
+    this._channel.on('frameDetached', ({ frame }) => frame ? this._onFrameDetached(Frame.from(frame)): null);
     this._channel.on('load', () => this.emit(Events.Page.Load, this));
     this._channel.on('pageError', ({ error }) => this.emit(Events.Page.PageError, parseError(error)));
     this._channel.on('request', ({ request }) => this.emit(Events.Page.Request, Request.from(request)));
